@@ -1,7 +1,9 @@
 var browserify = require('browserify-middleware')
 var express = require('express')
 var Path = require('path')
-var db  = require('./db');
+var db  = require('../app/db');
+var Users = require('./../app/models/users');
+
 
 var routes = express.Router()
 
@@ -18,10 +20,50 @@ routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'browserify', 'mithril'])
 })
 
+//app.post('/links',
+//function(req, res) {
+//  var uri = req.body.url;
+//
+//  if (!util.isValidUrl(uri)) {
+//    console.log('Not a valid url: ', uri);
+//    return res.send(404);
+//  }
+//
+//  Link.findByUrl(uri).then(function(link) {
+//    if (link) {
+//      res.send(200, link);
+//    } else {
+//
+//      Link.create({
+//        url: uri,
+//        base_url: req.headers.origin
+//      })
+//        .then(function(newLink) {
+//          res.send(201, newLink);
+//        })
+//        .catch(function (err) {
+//          console.log('Error reading URL heading: ', err);
+//          return res.status(404).send(err);
+//        })
+//    }
+//  });
+//});
+//
 
-//routes.post('/categories', function(req, res) {
-//  res.send(['node', 'express', 'browserify', 'mithril'])
-//})
+
+
+routes.post('/feed', function(req, res) {
+	var cats = req.body;
+	console.log(req.body);
+	Cats.create(req.body)
+	.then(function(category){
+		res.send(201,category)
+	})
+	.catch(function (err) {
+				console.log('Error creating new category: ', err);
+				return res.status(404).send(err);
+			})
+})
 
 
 
