@@ -1,4 +1,4 @@
-var db = require('../db');
+var db = require('./../../app/db');
 
 var Post = module.exports
 

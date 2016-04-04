@@ -6,8 +6,8 @@ var Path = require('path')
 
 
 var db  = require('../app/db');
-var Posts = require('./../app/models/posts');
-var Users = require('./../app/models/users');
+var Posts = require('./../client/models/posts');
+var Users = require('./../client/models/users');
 
 
 var routes = express.Router()
@@ -22,7 +22,7 @@ app.use('/', routes)
 // Provide a browserified file at a specified path
 //
 routes.get('/app-bundle.js',
-  browserify('./client/app.js'))
+  browserify('./../client/app.js'))
 
 //
 // Example endpoint (also tested in test/server/index_test.js)
@@ -60,6 +60,20 @@ routes.post('/categories', function(req, res) {
 			})
 })
 
+routes.post('/users', function(req, res) {
+	var user = req.body;
+
+	Users.create(user)
+	.then(function(person){
+		res.status(201).send(person);
+	})
+	.catch(function (err) {
+				console.log('Error creating new post: ', err);
+				return res.status(404).send(err);
+			})
+})
+
+
 
 routes.get('/*', function (req, res) {
 	res.sendFile(assetFolder + '/index.html')
@@ -74,24 +88,3 @@ routes.use(express.static(assetFolder))
 var port = process.env.PORT || 4000
 app.listen(port)
 console.log("Listening on port", port)
-//if (process.env.NODE_ENV !== 'test') {
-//  //
-//  // The Catch-all Route
-//  // This is for supporting browser history pushstate.
-//  // NOTE: Make sure this route is always LAST.
-//  //
-//
-//
-//  //
-//  // We're in development or production mode;
-//  // create and run a real server.
-//  //
-//  
-//
-//  // Start the server!
-//  
-//}
-//else {
-//  // We're in test mode; make this file importable instead.
-//  module.exports = routes
-//}

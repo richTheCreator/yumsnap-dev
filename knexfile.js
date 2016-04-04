@@ -4,6 +4,9 @@ module.exports = {
     client: 'postgresql',
     connection: {
       database: 'yumsnap'
-    }
+    },
+		migrations: {
+			directory: __dirname + '/migrations'
+		}
   }
 }
