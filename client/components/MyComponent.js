@@ -17,11 +17,26 @@ LoginWindow.controller = function () {
 		
 	 m.request({
 	 	method: "POST",
-	 	url: "/users",
+	 	url: "/signup",
 	 	data: obj
 	 }).then(function(res){
 		 console.log(res)
 	 })
+
+	}
+	
+	ctrl.signIn = function (e) {
+		e.preventDefault()
+		obj.username = ctrl.name;
+		obj.password = ctrl.password;
+		m.request({
+			method: "POST",
+			url: "/login",
+			data: obj
+		}).then(function (res) {
+//			m.route('/test');
+			console.log(res)
+		})
 
 	}
 }
@@ -33,7 +48,7 @@ LoginWindow.view = function (ctrl) {
 
 	//image here!!
 	m('div', {class: "bannerImg"}),
-    m('h1', {class:'loginText'}, "Login"),
+    m('h1', {class:'loginText'}, 'Login'),
     m('p', ctrl.fail),
 
     m('form', { onsubmit: ctrl.signIn }, [
